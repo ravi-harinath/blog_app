@@ -1,0 +1,12 @@
+<% if object.errors.any? %>
+  <div class="bg-red-100 border border-red-200 text-red-800 px-4 py-3 rounded mb-4">
+    <p class="font-semibold mb-2">
+      <%= pluralize(object.errors.count, "error") %> prohibited this record from being saved:
+    </p>
+    <ul class="list-disc pl-5 space-y-1">
+      <% object.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

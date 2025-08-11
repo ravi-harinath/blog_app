@@ -1,11 +1,26 @@
-<h1>All Posts</h1>
-<%= link_to "New Post", new_post_path %>
-<ul>
-  <% @posts.each do |post| %>
-    <li>
-      <%= link_to post.title, post %> |
-      <%= link_to "Edit", edit_post_path(post) %> |
-      <%= link_to "Delete", post, data: { turbo_method: :delete, confirm: "Are you sure?" } %>
-    </li>
+<div class="max-w-4xl mx-auto p-6">
+  <header class="flex items-center justify-between mb-6">
+    <h1 class="text-3xl font-bold">All Posts</h1>
+    <%= link_to "New Post", new_post_path, class: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded" %>
+  </header>
+
+  <% if @posts.any? %>
+    <ul class="space-y-4">
+      <% @posts.each do |post| %>
+        <li class="bg-white shadow rounded p-4 flex justify-between items-start">
+          <div>
+            <%= link_to post.title, post, class: "text-xl font-semibold text-gray-800 hover:underline" %>
+            <p class="text-gray-600 mt-1"><%= truncate(post.body, length: 150) %></p>
+            <p class="text-sm text-gray-500 mt-2">Published: <%= post.published? ? "Yes" : "No" %></p>
+          </div>
+          <div class="flex flex-col space-y-2 ml-4">
+            <%= link_to "Edit", edit_post_path(post), class: "text-sm text-blue-600 hover:underline" %>
+            <%= link_to "Delete", post, method: :delete, data: { confirm: "Are you sure?" }, class: "text-sm text-red-600 hover:underline" %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="text-gray-500">No posts yet.</p>
   <% end %>
-</ul>
+</div>

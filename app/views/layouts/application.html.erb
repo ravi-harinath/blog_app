@@ -1,28 +1,49 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Blog App" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
+    <title>BlogApp</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= yield :head %>
-
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
-
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", type: "module" %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="bg-gray-100 min-h-screen flex flex-col">
+    <nav class="bg-white shadow">
+      <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+        <%= link_to "BlogApp", root_path, class: "text-xl font-bold text-blue-700 hover:text-blue-900" %>
+        <%= link_to "All Posts", posts_path, class: "text-gray-700 hover:text-gray-900" %>
+      </div>
+    </nav>
+
+  <% flash.each do |key, message| %>
+  <div class="max-w-6xl mx-auto mt-4">
+    <% if key == "notice" %>
+      <div class="bg-green-100 border border-green-200 text-green-800 px-4 py-3 rounded">
+        <%= message %>
+      </div>
+    <% elsif key == "alert" %>
+      <div class="bg-red-100 border border-red-200 text-red-800 px-4 py-3 rounded">
+        <%= message %>
+      </div>
+    <% else %>
+      <div class="bg-gray-100 border border-gray-200 text-gray-800 px-4 py-3 rounded">
+        <%= message %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+
+    <main class="flex-grow py-8">
+      <%= yield %>
+    </main>
+
+    <footer class="bg-white shadow mt-8">
+      <div class="max-w-6xl mx-auto px-4 py-4 text-sm text-gray-500">
+        &copy; <%= Time.current.year %> BlogApp — Built with Rails & Tailwind CSS
+      </div>
+    </footer>
   </body>
 </html>
